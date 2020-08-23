@@ -111,19 +111,19 @@ void setup() {
     worker.width = 120;
     worker.height = 110;
 
-    image = IMG_Load("../resource/img/level01.jpg");
+    image = IMG_Load("resource/img/level01.jpg");
     texture = SDL_CreateTextureFromSurface(renderer, image);
 
-    icon_up = IMG_Load("../resource/img/icon_up.png");
+    icon_up = IMG_Load("resource/img/icon_up.png");
     texture_up = SDL_CreateTextureFromSurface(renderer, icon_up);
 
-    icon_down = IMG_Load("../resource/img/icon_down.png");
+    icon_down = IMG_Load("resource/img/icon_down.png");
     texture_down = SDL_CreateTextureFromSurface(renderer, icon_down);
 
-    icon_right = IMG_Load("../resource/img/icon_right.png");
+    icon_right = IMG_Load("resource/img/icon_right.png");
     texture_right = SDL_CreateTextureFromSurface(renderer, icon_right);
 
-    icon_left = IMG_Load("../resource/img/icon_left.png");
+    icon_left = IMG_Load("resource/img/icon_left.png");
     texture_left = SDL_CreateTextureFromSurface(renderer, icon_left);
 }
 
@@ -155,7 +155,7 @@ void render() {
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
 
-    worker_1 = IMG_Load("../resource/img/worker.jpeg");
+    worker_1 = IMG_Load("resource/img/worker.jpeg");
     texture3 = SDL_CreateTextureFromSurface(renderer, worker_1);
 
     SDL_Rect icons[1][4] = {{{182, 14, 42, 42}}};
@@ -179,7 +179,7 @@ void render() {
     SDL_RenderCopy(renderer, texture3, NULL, &worker_rect);
 
     if (ball.x < 523 ||  ball.x > 717 ) {
-        box = IMG_Load("../resource/img/box.jpeg");
+        box = IMG_Load("resource/img/box.jpeg");
         texture2 = SDL_CreateTextureFromSurface(renderer, box);
 
         SDL_Rect ball_rect = {

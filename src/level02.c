@@ -1,6 +1,6 @@
 #include "../inc/header.h"
 
-int game_is_running = FALSE;
+/*int game_is_running = FALSE;
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 
@@ -111,19 +111,19 @@ void setup() {
     worker.width = 120;
     worker.height = 110;
 
-    image = IMG_Load("../resource/img/level_2.jpg");
+    image = IMG_Load("resource/img/level_2.jpg");
     texture = SDL_CreateTextureFromSurface(renderer, image);
 
-    icon_up = IMG_Load("../resource/img/icon_up.png");
+    icon_up = IMG_Load("resource/img/icon_up.png");
     texture_up = SDL_CreateTextureFromSurface(renderer, icon_up);
 
-    icon_down = IMG_Load("../resource/img/icon_down.png");
+    icon_down = IMG_Load("resource/img/icon_down.png");
     texture_down = SDL_CreateTextureFromSurface(renderer, icon_down);
 
-    icon_right = IMG_Load("../resource/img/icon_right.png");
+    icon_right = IMG_Load("resource/img/icon_right.png");
     texture_right = SDL_CreateTextureFromSurface(renderer, icon_right);
 
-    icon_left = IMG_Load("../resource/img/icon_left.png");
+    icon_left = IMG_Load("resource/img/icon_left.png");
     texture_left = SDL_CreateTextureFromSurface(renderer, icon_left);
 }
 
@@ -193,7 +193,7 @@ void render() {
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     
-    worker_1 = IMG_Load("../resource/img/worker.png");
+    worker_1 = IMG_Load("resource/img/worker.png");
     texture3 = SDL_CreateTextureFromSurface(renderer, worker_1);
 
     SDL_Rect worker_rect = { 
@@ -264,7 +264,7 @@ void render() {
 
 
     if (ball.y < 200 || ball.y > 300) {
-        box = IMG_Load("../resource/img/box.jpeg");
+        box = IMG_Load("resource/img/box.jpeg");
         texture2 = SDL_CreateTextureFromSurface(renderer, box);
 
         SDL_Rect ball_rect = {
@@ -287,7 +287,7 @@ void destroy_window() {
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
-/*
+
 int main(void) {
     game_is_running = initialize_window();
 
