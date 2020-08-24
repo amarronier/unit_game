@@ -21,7 +21,7 @@ typedef struct {
     float width;
     float height;
 } t_rectangle;
-t_rectangle box, worker;
+t_rectangle box, worker, text, success;
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -36,8 +36,11 @@ int last_frame_time;
 int real[100];
 int count;
 int start;
+int restart;
+int finish;
 
 void render_copy_icons(int n, const SDL_Rect *icons);
+void run_level(int level);
 void update_1();
 void render_1();
 void update_2();

@@ -12,6 +12,12 @@ void update_2() {
     float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
     last_frame_time = SDL_GetTicks();
 
+    if (box.x < 700) {
+        if (text.x > 600) {
+            text.x -= 350 * delta_time;
+        }
+    }
+
     if (start) {
         if (step == 0) {
             if (box.y < 571) {
@@ -48,6 +54,7 @@ void update_2() {
         if (step == 3) {
             if (box.y < 170 && box.x < 900) {
                 if (correct_2[4] == real[4]) {
+                    step = 4;
                     if (correct_2[5] == real[5]) {
                         box.x += 110 * delta_time;
                         box.y += 64 * delta_time;
@@ -56,7 +63,19 @@ void update_2() {
             }
         }
 
-        if (box.x > 650 && worker.x < 780) {
+        for (int i = 0; i < 6; ++i) {
+            if (correct_2[i] != real[i]) {
+                if (restart == 1) {
+                    count = 0, start = 0, step = 0;
+                    for (int j = 0; j < 100; ++j) real[j] = 0;
+                    box.x = 470, box.y = 510, box.width = 50, box.height = 50;
+                    restart = 0;
+                }
+            }
+        }
+
+        if (box.x > 650 && worker.x < 780 && step == 4) {
+            finish = 1;
             worker.x += 73 * delta_time;
             worker.y -= 43 * delta_time;
         }
@@ -96,7 +115,41 @@ void render_2() {
         };
 
         SDL_RenderCopy(renderer, texture_box, NULL, &box_rect);
-        SDL_RenderPresent(renderer);
+        //SDL_RenderPresent(renderer);
     }
 
+    SDL_Surface* machine_ready = IMG_Load("resource/img/machine_ready.png");
+    SDL_Texture* texture_machine_ready_1 = SDL_CreateTextureFromSurface(renderer, machine_ready);
+
+    SDL_Rect machine_rect = {351,150,250,250};
+
+    SDL_RenderCopy(renderer, texture_machine_ready_1, NULL, &machine_rect);
+
+    SDL_Surface* success02 = IMG_Load("resource/img/success02.png");
+    SDL_Texture* texture_success02 = SDL_CreateTextureFromSurface(renderer, success02);
+
+    SDL_Rect person_rect = {
+            (int)success.x,
+            (int)success.y,
+            (int)success.width,
+            (int)success.height
+    };
+
+    SDL_Surface* text02 = IMG_Load("resource/img/text02.png");
+    SDL_Texture* texture_text02 = SDL_CreateTextureFromSurface(renderer, text02);
+
+    if(!finish)  {
+        SDL_Rect text_rect = {
+                (int)text.x,
+                (int)text.y,
+                (int)text.width,
+                (int)text.height
+        };
+        texture_text02 = SDL_CreateTextureFromSurface(renderer, text02);
+        SDL_RenderCopy(renderer, texture_text02, NULL, &text_rect);
+    }
+
+    if (finish)
+        SDL_RenderCopy(renderer, texture_success02, NULL, &person_rect);
+    SDL_RenderPresent(renderer);
 }

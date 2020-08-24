@@ -9,6 +9,7 @@ int game_is_running = FALSE;
 int last_frame_time = 0;
 int count = 0;
 int start = 0;
+int restart = 0;
 
 int initialize_window(void) {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -47,6 +48,16 @@ void setup(t_rectangle box_init, t_rectangle worker_init, const char *background
     worker.width = worker_init.width;
     worker.height = worker_init.height;
 
+    text.x = 1500;
+    text.y = 335;
+    text.width = 684;
+    text.height = 405;
+
+    success.x = 600;
+    success.y = 335;
+    success.width = 684;
+    success.height = 405;
+
     image = IMG_Load(background_filename);
     texture = SDL_CreateTextureFromSurface(renderer, image);
 
@@ -66,6 +77,7 @@ void setup(t_rectangle box_init, t_rectangle worker_init, const char *background
 void process_input() {
     SDL_Event event;
     SDL_PollEvent(&event);
+    //SDL_WaitEvent(&event);
 
     switch (event.type) {
         case SDL_QUIT:
@@ -82,6 +94,9 @@ void process_input() {
                 case SDLK_LEFT:
                     real[count] = event.key.keysym.sym;
                     ++count;
+                    break;
+                case SDLK_r:
+                    restart = 1;
                     break;
                 case SDLK_ESCAPE:
                     game_is_running = FALSE;

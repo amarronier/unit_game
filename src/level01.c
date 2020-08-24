@@ -17,10 +17,14 @@ void update_1() {
                 box.x += 90 * delta_time;
                 box.y -= 52 * delta_time;
             }
+        } else if (restart == 1) {
+            count = 0, start = 0;
+            for (int i = 0; i < 100; ++i) real[i] = 0;
+            restart = 0;
         }
     }
 
-    if (box.x > 760 && worker.y > 250) {
+    if (box.x > 760 && worker.y > 250 && restart == 0) {
         worker.x -= 60 * delta_time;
         worker.y -= 35 * delta_time;
     }
