@@ -26,37 +26,32 @@ int initialize_window(void) {
     );
     if (!window) {
         fprintf(stderr, "Error creating SDL Window.\n");
-        return 0;
+        exit(1);
     }
 
     renderer = SDL_CreateRenderer(window, -1, 0);
     if (!renderer) {
         fprintf(stderr, "Error creating SDL Renderer.\n");
-        return 0;
+        exit(1);
     }
     return TRUE;
 }
 
-void setup(t_rectangle box_init, t_rectangle worker_init, const char *background_filename) {
-    box.x = box_init.x;
-    box.y = box_init.y;
-    box.width = box_init.width;
-    box.height = box_init.height;
+void setup(t_rectangle box_init, t_rectangle worker_init, t_rectangle panel_init, t_rectangle person_init,
+           t_rectangle text_init, t_rectangle next_init, t_rectangle token0_init, t_rectangle token_init,
+           t_rectangle coin_init, const char *background_filename) {
 
-    worker.x = worker_init.x;
-    worker.y = worker_init.y;
-    worker.width = worker_init.width;
-    worker.height = worker_init.height;
+    box = box_init;
+    worker = worker_init;
+    panel = panel_init;
+    person = person_init;
+    text = text_init;
+    next = next_init;
+    token = token_init;
+    token0 = token0_init;
+    coin = coin_init;
 
-    text.x = 1500;
-    text.y = 335;
-    text.width = 684;
-    text.height = 405;
-
-    success.x = 600;
-    success.y = 335;
-    success.width = 684;
-    success.height = 405;
+    success = (t_rectangle){600, 335, 684, 405};
 
     image = IMG_Load(background_filename);
     texture = SDL_CreateTextureFromSurface(renderer, image);
@@ -77,11 +72,18 @@ void setup(t_rectangle box_init, t_rectangle worker_init, const char *background
 void process_input() {
     SDL_Event event;
     SDL_PollEvent(&event);
-    //SDL_WaitEvent(&event);
 
     switch (event.type) {
         case SDL_QUIT:
             game_is_running = FALSE;
+            break;
+
+        case SDL_MOUSEBUTTONDOWN:
+
+            if (event.button.button == SDL_BUTTON_LEFT)
+                if (event.button.x > 805 && event.button.x < 940
+                    && event.button.y > 590 && event.button.y < 640 && box.x > 760)
+                    game_is_running = FALSE;
             break;
 
         case SDL_KEYUP:
@@ -127,25 +129,49 @@ void destroy_window() {
     SDL_Quit();
 }
 
-void cleanup_between_levels() {
+void cleanup_between_levels(int level) {
     game_is_running = TRUE;
     count = 0;
     start = 0;
     for (int i = 0; i < 100; ++i) real[i] = 0;
+    if (level == 1) {
+        cleanup_1();
+    }
+    else if (level == 2) {
+        cleanup_2();
+    }
 }
 
 void run_level(int level) {
     if (level == 1) {
-        const char *background = "resource/img/level01.jpg";
+        const char *background = "resource/img/level01_3.jpg";
         t_rectangle box_init = {210, 500, 50, 50};
-        t_rectangle worker_init = {980, 344, 120, 110};
-        setup(box_init, worker_init, background);
+        t_rectangle worker_init = {980, 310, 120, 110};
+        t_rectangle panel_init = {-342, -68, 292, 376};
+        t_rectangle person_init = {1300, 300, 249, 423};
+        t_rectangle text_init = {587, 490, 508, 290};
+        t_rectangle next_init = {650, 490, 448, 177};
+        t_rectangle token0_init = {1150, 43, 20, 35};
+        t_rectangle token_init = {1085, 43, 89, 35};
+        t_rectangle coin_init = {1180, 22, 70, 70};
+        setup(box_init, worker_init, panel_init, person_init,
+              text_init, next_init, token0_init, token_init, coin_init, background);
+        setup_1();
     }
     else if (level == 2) {
         const char *background = "resource/img/level_2.jpg";
         t_rectangle box_init = {470, 510, 50, 50};
         t_rectangle worker_init = {610, 310, 120, 110};
-        setup(box_init, worker_init, background);
+        t_rectangle panel_init = {20, 20, 292, 376};
+        t_rectangle person_init = {1300, 300, 249, 423};
+        t_rectangle text_init = {500, 400, 508, 290};
+        t_rectangle next_init = {587, 490, 508, 290};
+        t_rectangle token0_init = {1085, 43, 89, 35};
+        t_rectangle token_init = {1085, 43, 89, 35};
+        t_rectangle coin_init = {1170, 20, 70, 70};
+        setup(box_init, worker_init, panel_init, person_init,
+              text_init, next_init, token0_init, token_init, coin_init, background);
+        setup_2();
     }
 
     while (game_is_running) {
@@ -166,12 +192,10 @@ int main() {
 
     for (int level = 1; level <= 2; ++level) {
         run_level(level);
-        cleanup_between_levels();
+        cleanup_between_levels(level);
     }
 
     destroy_window();
     return 0;
 }
-
-
 

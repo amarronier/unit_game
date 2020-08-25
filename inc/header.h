@@ -5,6 +5,8 @@
 
 #include <stdio.h>
 #include <stddef.h>
+#include <stdlib.h>
+
 
 #define FALSE 0
 #define TRUE 1
@@ -21,7 +23,7 @@ typedef struct {
     float width;
     float height;
 } t_rectangle;
-t_rectangle box, worker, text, success;
+t_rectangle box, worker, text, success, panel, person, next, token, token0, coin;
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -41,7 +43,13 @@ int finish;
 
 void render_copy_icons(int n, const SDL_Rect *icons);
 void run_level(int level);
+
+void setup_1();
 void update_1();
 void render_1();
+void cleanup_1();
+
+void setup_2();
 void update_2();
 void render_2();
+void cleanup_2();

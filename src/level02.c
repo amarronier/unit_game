@@ -2,6 +2,34 @@
 
 int correct_2[7] = {SDLK_DOWN, SDLK_UP, SDLK_RIGHT, SDLK_UP, SDLK_RIGHT, SDLK_UP, SDLK_RETURN};
 
+SDL_Texture* texture_worker_1;
+SDL_Texture* texture_box;
+SDL_Texture* texture_machine_ready_1;
+SDL_Texture* texture_success02;
+SDL_Texture* texture_text02;
+
+void setup_2() {
+    SDL_Surface* worker_1 = IMG_Load("resource/img/worker.png");
+    texture_worker_1 = SDL_CreateTextureFromSurface(renderer, worker_1);
+    SDL_FreeSurface(worker_1);
+
+    SDL_Surface* surface_box = IMG_Load("resource/img/box.jpeg");
+    texture_box = SDL_CreateTextureFromSurface(renderer, surface_box);
+    SDL_FreeSurface(surface_box);
+
+    SDL_Surface* machine_ready = IMG_Load("resource/img/machine_ready.png");
+    texture_machine_ready_1 = SDL_CreateTextureFromSurface(renderer, machine_ready);
+    SDL_FreeSurface(machine_ready);
+
+    SDL_Surface* success02 = IMG_Load("resource/img/success02.png");
+    texture_success02 = SDL_CreateTextureFromSurface(renderer, success02);
+    SDL_FreeSurface(success02);
+
+    SDL_Surface* text02 = IMG_Load("resource/img/text02.png");
+    texture_text02 = SDL_CreateTextureFromSurface(renderer, text02);
+    SDL_FreeSurface(text02);
+}
+
 void update_2() {
     int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
     static int step = 0;
@@ -48,19 +76,19 @@ void update_2() {
                     }
                 }
             }
-            if (box.x > 690) step = 3;
+            if (box.x > 680) step = 3;
         }
 
         if (step == 3) {
             if (box.y < 170 && box.x < 900) {
                 if (correct_2[4] == real[4]) {
-                    step = 4;
                     if (correct_2[5] == real[5]) {
                         box.x += 110 * delta_time;
                         box.y += 64 * delta_time;
                     }
                 }
             }
+            if (box.x > 760) step = 4;
         }
 
         for (int i = 0; i < 6; ++i) {
@@ -86,70 +114,35 @@ void render_2() {
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
 
-    SDL_Surface* worker_1 = IMG_Load("resource/img/worker.png");
-    SDL_Texture* texture_worker_1 = SDL_CreateTextureFromSurface(renderer, worker_1);
-
-    SDL_Rect worker_rect = { 
-            (int)worker.x, 
-            (int)worker.y, 
-            (int)worker.width, 
-            (int)worker.height 
-        };
-
+    SDL_Rect worker_rect = {(int)worker.x, (int)worker.y, (int)worker.width, (int)worker.height};
     SDL_RenderCopy(renderer, texture_worker_1, NULL, &worker_rect);
+
+    SDL_Rect box_rect = {(int)box.x, (int)box.y, (int)box.width, (int)box.height};
+    if (box.y < 200 || box.y > 300)
+        SDL_RenderCopy(renderer, texture_box, NULL, &box_rect);
+
+    SDL_Rect machine_rect = {351,150,250,250};
+    SDL_RenderCopy(renderer, texture_machine_ready_1, NULL, &machine_rect);
+
+    SDL_Rect text_rect = {(int)text.x, (int)text.y, (int)text.width, (int)text.height};
+    if(!finish)
+        SDL_RenderCopy(renderer, texture_text02, NULL, &text_rect);
+
+    SDL_Rect person_rect = {(int)success.x, (int)success.y, (int)success.width, (int)success.height};
+    if (finish)
+        SDL_RenderCopy(renderer, texture_success02, NULL, &person_rect);
 
     SDL_Rect icons[6] = {{182, 14, 42, 42}, {230, 14, 42, 42}, {278, 14, 42, 42},
                          {326, 14, 42, 42}, {374, 14, 42, 42}, {422, 14, 42, 42}};
-
     render_copy_icons(6, icons);
 
-    if (box.y < 200 || box.y > 300) {
-        SDL_Surface* surface_box = IMG_Load("resource/img/box.jpeg");
-        SDL_Texture* texture_box = SDL_CreateTextureFromSurface(renderer, surface_box);
-
-        SDL_Rect box_rect = {
-            (int)box.x,
-            (int)box.y,
-            (int)box.width,
-            (int)box.height
-        };
-
-        SDL_RenderCopy(renderer, texture_box, NULL, &box_rect);
-        //SDL_RenderPresent(renderer);
-    }
-
-    SDL_Surface* machine_ready = IMG_Load("resource/img/machine_ready.png");
-    SDL_Texture* texture_machine_ready_1 = SDL_CreateTextureFromSurface(renderer, machine_ready);
-
-    SDL_Rect machine_rect = {351,150,250,250};
-
-    SDL_RenderCopy(renderer, texture_machine_ready_1, NULL, &machine_rect);
-
-    SDL_Surface* success02 = IMG_Load("resource/img/success02.png");
-    SDL_Texture* texture_success02 = SDL_CreateTextureFromSurface(renderer, success02);
-
-    SDL_Rect person_rect = {
-            (int)success.x,
-            (int)success.y,
-            (int)success.width,
-            (int)success.height
-    };
-
-    SDL_Surface* text02 = IMG_Load("resource/img/text02.png");
-    SDL_Texture* texture_text02 = SDL_CreateTextureFromSurface(renderer, text02);
-
-    if(!finish)  {
-        SDL_Rect text_rect = {
-                (int)text.x,
-                (int)text.y,
-                (int)text.width,
-                (int)text.height
-        };
-        texture_text02 = SDL_CreateTextureFromSurface(renderer, text02);
-        SDL_RenderCopy(renderer, texture_text02, NULL, &text_rect);
-    }
-
-    if (finish)
-        SDL_RenderCopy(renderer, texture_success02, NULL, &person_rect);
     SDL_RenderPresent(renderer);
+}
+
+void cleanup_2() {
+    SDL_DestroyTexture(texture_worker_1);
+    SDL_DestroyTexture(texture_box);
+    SDL_DestroyTexture(texture_machine_ready_1);
+    SDL_DestroyTexture(texture_success02);
+    SDL_DestroyTexture(texture_text02);
 }

@@ -23,10 +23,10 @@ SDL_FLAGS = -rpath resource/framework -framework SDL2 \
 MKDIR = mkdir -p
 RM = rm -rf
 
-all: $(NAME)
+all: ENDGAME
 
-$(NAME): $(OBJ_FILES)
-	@$(CC) $(CFLAGS) $^ -o $@ -I $(INC_DIR) $(SDL_FLAGS) $(SDL)
+ENDGAME: $(OBJ_FILES)
+	@$(CC) $(CFLAGS) $^ -o $@ -I $(INC_DIR) $(SDL_FLAGS) $(SDL) -o $(NAME)
 	@printf "\r\33[2K$@\t \033[32;1mcreated\033[0m\n"
 
 $(OBJ_FILES): | $(OBJ_DIR)
