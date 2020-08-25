@@ -39,7 +39,7 @@ int initialize_window(void) {
 
 void setup(t_rectangle box_init, t_rectangle worker_init, t_rectangle panel_init, t_rectangle person_init,
            t_rectangle text_init, t_rectangle next_init, t_rectangle token0_init, t_rectangle token_init,
-           t_rectangle coin_init, const char *background_filename) {
+           t_rectangle coin_init, t_rectangle kran_init, const char *background_filename) {
 
     box = box_init;
     worker = worker_init;
@@ -50,6 +50,7 @@ void setup(t_rectangle box_init, t_rectangle worker_init, t_rectangle panel_init
     token = token_init;
     token0 = token0_init;
     coin = coin_init;
+    kran = kran_init;
 
     success = (t_rectangle){600, 335, 684, 405};
 
@@ -140,6 +141,9 @@ void cleanup_between_levels(int level) {
     else if (level == 2) {
         cleanup_2();
     }
+    else if (level == 3) {
+        cleanup_3();
+    }
 }
 
 void run_level(int level) {
@@ -154,8 +158,9 @@ void run_level(int level) {
         t_rectangle token0_init = {1150, 43, 20, 35};
         t_rectangle token_init = {1085, 43, 89, 35};
         t_rectangle coin_init = {1180, 22, 70, 70};
-        setup(box_init, worker_init, panel_init, person_init,
-              text_init, next_init, token0_init, token_init, coin_init, background);
+        t_rectangle kran_init = {0, 0, 0, 0};
+        setup(box_init, worker_init, panel_init, person_init, text_init, next_init,
+              token0_init, token_init, coin_init, kran_init, background);
         setup_1();
     }
     else if (level == 2) {
@@ -169,9 +174,26 @@ void run_level(int level) {
         t_rectangle token0_init = {1085, 43, 89, 35};
         t_rectangle token_init = {1085, 43, 89, 35};
         t_rectangle coin_init = {1170, 20, 70, 70};
-        setup(box_init, worker_init, panel_init, person_init,
-              text_init, next_init, token0_init, token_init, coin_init, background);
+        t_rectangle kran_init = {0, 0, 0, 0};
+        setup(box_init, worker_init, panel_init, person_init, text_init, next_init,
+              token0_init, token_init, coin_init, kran_init, background);
         setup_2();
+    }
+    else if (level == 3) {
+        const char *background = "resource/img/level_3.png";
+        t_rectangle box_init = {287, 595, 50, 50};
+        t_rectangle worker_init = {80, 585, 120, 110};
+        t_rectangle panel_init = {20, 20, 292, 376};
+        t_rectangle person_init = {1300, 300, 249, 423};
+        t_rectangle text_init = {500, 400, 508, 290};
+        t_rectangle next_init = {600, 335, 508, 290};
+        t_rectangle token0_init = {1085, 43, 89, 35};
+        t_rectangle token_init = {1085, 43, 89, 35};
+        t_rectangle coin_init = {1170, 20, 70, 70};
+        t_rectangle kran_init = {640, 300, 684, 405};
+        setup(box_init, worker_init, panel_init, person_init, text_init, next_init,
+              token0_init, token_init, coin_init, kran_init, background);
+        setup_3();
     }
 
     while (game_is_running) {
@@ -184,13 +206,17 @@ void run_level(int level) {
             update_2();
             render_2();
         }
+        else if (level == 3) {
+            update_3();
+            render_3();
+        }
     }
 }
 
 int main() {
     game_is_running = initialize_window();
 
-    for (int level = 1; level <= 2; ++level) {
+    for (int level = 1; level <= 3; ++level) {
         run_level(level);
         cleanup_between_levels(level);
     }
@@ -198,4 +224,3 @@ int main() {
     destroy_window();
     return 0;
 }
-

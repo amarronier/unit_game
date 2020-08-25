@@ -23,7 +23,7 @@ typedef struct {
     float width;
     float height;
 } t_rectangle;
-t_rectangle box, worker, text, success, panel, person, next, token, token0, coin;
+t_rectangle box, worker, text, success, panel, person, next, token, token0, coin, kran;
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -53,3 +53,8 @@ void setup_2();
 void update_2();
 void render_2();
 void cleanup_2();
+
+void setup_3();
+void update_3();
+void render_3();
+void cleanup_3();
