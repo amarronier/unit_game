@@ -127,6 +127,7 @@ void update_3() {
                     count = 0, start = 0, step = 0;
                     for (int j = 0; j < 100; ++j) real[j] = 0;
                     box.x = 287, box.y = 595, box.width = 50, box.height = 50;
+                    kran.x = 640, kran.y = 300, kran.width = 100, kran.height = 100;
                     restart = 0;
                 }
             }
@@ -170,9 +171,9 @@ void render_3() {
     if(!finish_3)
         SDL_RenderCopy(renderer, texture_text03, NULL, &text_rect);
 
-    SDL_Rect person_rect = {(int) success.x, (int) success.y, (int) success.width, (int) success.height};
+    SDL_Rect next_rect = {(int) next.x, (int) next.y, (int) next.width, (int) next.height};
     if (finish_3)
-        SDL_RenderCopy(renderer, texture_success03, NULL, &person_rect);
+        SDL_RenderCopy(renderer, texture_success03, NULL, &next_rect);
 
     SDL_Rect icons[11] = {{182, 11, 42, 42}, {230, 11, 42, 42}, {278, 11, 42, 42},
                           {326, 11, 42, 42}, {374, 11, 42, 42}, {422, 11, 42, 42},
@@ -193,4 +194,3 @@ void cleanup_3() {
     SDL_DestroyTexture(texture_text03);
 
 }
-

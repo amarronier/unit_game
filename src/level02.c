@@ -7,6 +7,7 @@ SDL_Texture* texture_box;
 SDL_Texture* texture_machine_ready_1;
 SDL_Texture* texture_success02;
 SDL_Texture* texture_text02;
+SDL_Texture* texture_person_1;
 
 void setup_2() {
     SDL_Surface* worker_1 = IMG_Load("resource/img/worker.png");
@@ -21,10 +22,14 @@ void setup_2() {
     texture_machine_ready_1 = SDL_CreateTextureFromSurface(renderer, machine_ready);
     SDL_FreeSurface(machine_ready);
 
-    SDL_Surface* success02 = IMG_Load("resource/img/success02.png");
+    SDL_Surface* success02 = IMG_Load("resource/img/nextlevel.png");
     texture_success02 = SDL_CreateTextureFromSurface(renderer, success02);
     SDL_FreeSurface(success02);
-
+    //
+    SDL_Surface* person01 = IMG_Load("resource/img/person2.png");
+    texture_person_1 = SDL_CreateTextureFromSurface(renderer, person01);
+    SDL_FreeSurface(person01);
+    //
     SDL_Surface* text02 = IMG_Load("resource/img/text02.png");
     texture_text02 = SDL_CreateTextureFromSurface(renderer, text02);
     SDL_FreeSurface(text02);
@@ -40,18 +45,17 @@ void update_2() {
     float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
     last_frame_time = SDL_GetTicks();
 
-    if (box.x < 700) {
-        if (text.x > 600) {
-            text.x -= 350 * delta_time;
-        }
-    }
+    if (person.x > 980)
+        person.x -= 180 * delta_time;
+
+
 
     if (start) {
         if (step == 0) {
             if (box.y < 571) {
                 if (correct_2[0] == real[0]) {
                     box.x += 0 * delta_time;
-                    box.y += 60 * delta_time;
+                    box.y += 90 * delta_time;
                 }
             }
             if (box.y > 570) step = 1;
@@ -80,7 +84,7 @@ void update_2() {
         }
 
         if (step == 3) {
-            if (box.y < 170 && box.x < 900) {
+            if (box.y < 180 && box.x < 900) {
                 if (correct_2[4] == real[4]) {
                     if (correct_2[5] == real[5]) {
                         box.x += 110 * delta_time;
@@ -88,7 +92,7 @@ void update_2() {
                     }
                 }
             }
-            if (box.x > 760) step = 4;
+            if (box.x > 770) step = 4;
         }
 
         for (int i = 0; i < 6; ++i) {
@@ -102,7 +106,7 @@ void update_2() {
             }
         }
 
-        if (box.x > 650 && worker.x < 780 && step == 4) {
+        if (worker.x < 760 && step == 4) {
             finish = 1;
             worker.x += 73 * delta_time;
             worker.y -= 43 * delta_time;
@@ -116,21 +120,33 @@ void render_2() {
 
     SDL_Rect worker_rect = {(int)worker.x, (int)worker.y, (int)worker.width, (int)worker.height};
     SDL_RenderCopy(renderer, texture_worker_1, NULL, &worker_rect);
-
+    //
+    SDL_Surface* surface_product = IMG_Load("resource/img/acum.png");
+    SDL_Texture* texture_product = SDL_CreateTextureFromSurface(renderer, surface_product);
+    //
     SDL_Rect box_rect = {(int)box.x, (int)box.y, (int)box.width, (int)box.height};
-    if (box.y < 200 || box.y > 300)
+
+    if (box.x < 530)
         SDL_RenderCopy(renderer, texture_box, NULL, &box_rect);
+    if (box.x > 530)
+        SDL_RenderCopy(renderer, texture_product, NULL, &box_rect);
 
     SDL_Rect machine_rect = {351,150,250,250};
     SDL_RenderCopy(renderer, texture_machine_ready_1, NULL, &machine_rect);
 
+
+
     SDL_Rect text_rect = {(int)text.x, (int)text.y, (int)text.width, (int)text.height};
-    if(!finish)
+    if(person.x < 990 && !finish)
         SDL_RenderCopy(renderer, texture_text02, NULL, &text_rect);
 
-    SDL_Rect person_rect = {(int)success.x, (int)success.y, (int)success.width, (int)success.height};
+    SDL_Rect text2_rect = {(int)next.x, (int)next.y, (int)next.width, (int)next.height};
+
     if (finish)
-        SDL_RenderCopy(renderer, texture_success02, NULL, &person_rect);
+        SDL_RenderCopy(renderer, texture_success02, NULL, &text2_rect);
+
+    SDL_Rect person_rect = {(int)person.x, (int)person.y, (int)person.width, (int)person.height};
+    SDL_RenderCopy(renderer, texture_person_1, NULL, &person_rect);
 
     SDL_Rect icons[6] = {{182, 14, 42, 42}, {230, 14, 42, 42}, {278, 14, 42, 42},
                          {326, 14, 42, 42}, {374, 14, 42, 42}, {422, 14, 42, 42}};
@@ -142,6 +158,7 @@ void render_2() {
 void cleanup_2() {
     SDL_DestroyTexture(texture_worker_1);
     SDL_DestroyTexture(texture_box);
+    SDL_DestroyTexture(texture_person_1);
     SDL_DestroyTexture(texture_machine_ready_1);
     SDL_DestroyTexture(texture_success02);
     SDL_DestroyTexture(texture_text02);

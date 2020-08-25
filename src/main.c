@@ -52,7 +52,7 @@ void setup(t_rectangle box_init, t_rectangle worker_init, t_rectangle panel_init
     coin = coin_init;
     kran = kran_init;
 
-    success = (t_rectangle){600, 335, 684, 405};
+   // success = (t_rectangle){600, 335, 684, 405};
 
     image = IMG_Load(background_filename);
     texture = SDL_CreateTextureFromSurface(renderer, image);
@@ -83,7 +83,7 @@ void process_input() {
 
             if (event.button.button == SDL_BUTTON_LEFT)
                 if (event.button.x > 805 && event.button.x < 940
-                    && event.button.y > 590 && event.button.y < 640 && box.x > 760)
+                    && event.button.y > 590 && event.button.y < 640 && box.x > 750)
                     game_is_running = FALSE;
             break;
 
@@ -168,9 +168,9 @@ void run_level(int level) {
         t_rectangle box_init = {470, 510, 50, 50};
         t_rectangle worker_init = {610, 310, 120, 110};
         t_rectangle panel_init = {20, 20, 292, 376};
-        t_rectangle person_init = {1300, 300, 249, 423};
-        t_rectangle text_init = {500, 400, 508, 290};
-        t_rectangle next_init = {587, 490, 508, 290};
+        t_rectangle person_init = {1300, 320, 289, 404};
+        t_rectangle text_init = {590, 490, 459, 208};
+        t_rectangle next_init = {670, 500, 400, 177};
         t_rectangle token0_init = {1085, 43, 89, 35};
         t_rectangle token_init = {1085, 43, 89, 35};
         t_rectangle coin_init = {1170, 20, 70, 70};
@@ -185,12 +185,12 @@ void run_level(int level) {
         t_rectangle worker_init = {80, 585, 120, 110};
         t_rectangle panel_init = {20, 20, 292, 376};
         t_rectangle person_init = {1300, 300, 249, 423};
-        t_rectangle text_init = {500, 400, 508, 290};
-        t_rectangle next_init = {600, 335, 508, 290};
-        t_rectangle token0_init = {1085, 43, 89, 35};
+        t_rectangle text_init = {1300, 330, 670, 400};
+        t_rectangle next_init = {640, 300, 685, 435};
+        t_rectangle token0_init = {1085, 43, 680, 35};
         t_rectangle token_init = {1085, 43, 89, 35};
         t_rectangle coin_init = {1170, 20, 70, 70};
-        t_rectangle kran_init = {640, 300, 684, 405};
+        t_rectangle kran_init = {640, 300, 100, 100};
         setup(box_init, worker_init, panel_init, person_init, text_init, next_init,
               token0_init, token_init, coin_init, kran_init, background);
         setup_3();

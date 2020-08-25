@@ -65,18 +65,19 @@ void update_1() {
     if (person.x > 1050)
         person.x -= 180 * delta_time;
 
-    if (box.x < 770) {
-        if (correct_1[0] == real[0]) {
-            if (correct_1[1] == real[1]) {
+    if (start) {
+        if (box.x < 770) {
+            if (correct_1[0] == real[0]) {
                 box.x += 90 * delta_time;
                 box.y -= 52 * delta_time;
+            } else if (restart == 1) {
+                count = 0, start = 0;
+                for (int i = 0; i < 100; ++i) real[i] = 0;
+                restart = 0;
             }
-        } else if (restart == 1) {
-            count = 0, start = 0;
-            for (int i = 0; i < 100; ++i) real[i] = 0;
-            restart = 0;
         }
     }
+
 
     if (box.x > 760 && worker.y > 210 && restart == 0) {
         worker.x -= 60 * delta_time;
