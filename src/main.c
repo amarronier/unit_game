@@ -255,7 +255,10 @@ void run_level(int level) {
 
     while (game_is_running) {
         process_input();
-        if (destroy) destroy_window();
+        if (destroy) {
+		destroy_window();
+		exit(0);
+	}
         if (level == 1) {
             update_1();
             render_1();
