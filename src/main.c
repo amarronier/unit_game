@@ -150,6 +150,17 @@ void cleanup_between_levels(int level) {
     }
 }
 
+void run_intro() {
+    setup_intro();
+    render_intro();
+    while (game_is_running) {
+        process_intro();
+        render_speech_1();
+        render_speech_2();
+    }
+    cleanup_intro();
+}
+
 void run_level(int level) {
     if (level == 1) {
         const char *background = "resource/img/level_1.jpg";
@@ -240,6 +251,10 @@ void run_level(int level) {
 
 int main() {
     game_is_running = initialize_window();
+
+    run_intro();
+    game_is_running = TRUE;
+    last_frame_time = SDL_GetTicks();
 
     for (int level = 1; level <= 4; ++level) {
         run_level(level);

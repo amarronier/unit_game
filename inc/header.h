@@ -4,6 +4,7 @@
 #include <SDL2_image/SDL_image.h>
 
 #include <stdio.h>
+#include <unistd.h>
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -43,6 +44,13 @@ int finish;
 
 void render_copy_icons(int n, const SDL_Rect *icons);
 void run_level(int level);
+
+void setup_intro();
+void render_intro();
+void render_speech_1();
+void render_speech_2();
+void process_intro();
+void cleanup_intro();
 
 void setup_1();
 void update_1();

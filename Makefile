@@ -19,6 +19,8 @@ SDL_FLAGS = -rpath resource/framework -framework SDL2 \
 		-I resource/framework/SDL2_image.framework/Headers \
 		-framework SDL2_mixer \
         -I inc/framework/SDL2_mixer.framework/Headers \
+        -framework SDL2_ttf \
+        -I inc/framework/SDL2_ttf.framework/Headers \
 
 MKDIR = mkdir -p
 RM = rm -rf
