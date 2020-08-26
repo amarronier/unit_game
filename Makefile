@@ -4,7 +4,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = inc
 
-SDL = -F resource/framework -I resource/framework/SDL2.framework/SDL2 -I resource/framework/SDL2_image.framework/SDL2_image
+SDL = -F resource/framework -I resource/framework/SDL2.framework/SDL2 -I resource/framework/SDL2_image.framework/SDL2_image -I resource/framework/SDL2_ttf.framework/SDL2_ttf
 
 SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
 INC_FILES = $(wildcard $(INC_DIR)/*.h)
@@ -15,12 +15,12 @@ CC = clang
 CFLAGS = -std=c11 $(addprefix -W, all extra error pedantic) -g \
 
 SDL_FLAGS = -rpath resource/framework -framework SDL2 \
-		-framework SDL2_image \
-		-I resource/framework/SDL2_image.framework/Headers \
-		-framework SDL2_mixer \
-        -I inc/framework/SDL2_mixer.framework/Headers \
-        -framework SDL2_ttf \
-        -I inc/framework/SDL2_ttf.framework/Headers \
+            		-framework SDL2_image \
+            		-I resource/framework/SDL2_image.framework/Headers \
+            		-framework SDL2_mixer \
+                    -I inc/framework/SDL2_mixer.framework/Headers \
+            		-framework SDL2_ttf \
+                    -I inc/framework/SDL2_ttf.framework/Headers \
 
 MKDIR = mkdir -p
 RM = rm -rf

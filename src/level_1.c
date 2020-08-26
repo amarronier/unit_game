@@ -11,6 +11,7 @@ SDL_Texture* texture_token01;
 SDL_Texture* texture_worker_1;
 SDL_Texture* texture_box;
 SDL_Texture* texture_machine_ready_1;
+SDL_Texture* texture_product;
 
 void setup_1() {
     SDL_Surface* panel01 = IMG_Load("resource/img/panel_1.png");
@@ -33,9 +34,9 @@ void setup_1() {
     texture_token00 = SDL_CreateTextureFromSurface(renderer, token00);
     SDL_FreeSurface(token00);
 
-    SDL_Surface* token01 = IMG_Load("resource/img/1000.png");
-    texture_token01 = SDL_CreateTextureFromSurface(renderer, token01);
-    SDL_FreeSurface(token01);
+    // SDL_Surface* token01 = IMG_Load("resource/img/1000.png");
+    // texture_token01 = SDL_CreateTextureFromSurface(renderer, token01);
+    // SDL_FreeSurface(token01);
 
     SDL_Surface* worker_1 = IMG_Load("resource/img/worker.jpeg");
     texture_worker_1 = SDL_CreateTextureFromSurface(renderer, worker_1);
@@ -44,6 +45,10 @@ void setup_1() {
     SDL_Surface* surface_box = IMG_Load("resource/img/box.jpeg");
     texture_box = SDL_CreateTextureFromSurface(renderer, surface_box);
     SDL_FreeSurface(surface_box);
+
+    SDL_Surface* surface_product = IMG_Load("resource/img/product.png");
+    texture_product = SDL_CreateTextureFromSurface(renderer, surface_product);
+    SDL_FreeSurface(surface_product);
 
     SDL_Surface* machine_ready = IMG_Load("resource/img/machine_my.png");
     texture_machine_ready_1 = SDL_CreateTextureFromSurface(renderer, machine_ready);
@@ -59,6 +64,35 @@ void update_1() {
     float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
     last_frame_time = SDL_GetTicks();
 
+
+    if (box.x > 700 && score <= 10000 && stop_score == 0) {
+        score += 4000 * delta_time;
+        sprintf(buffer, "%d", (int)score);
+        texture_score = renderText(buffer, renderer);
+
+        if (score > 9600 && stop_score == 0) {
+            score = 10000;
+            sprintf(buffer, "%d", (int)score);
+            texture_score = renderText(buffer, renderer);
+            stop_score = 1;
+        }
+        
+    }
+    
+    if (box.x > 700 && score <= 10000 && stop_score == 0) {
+        score += 4000 * delta_time;
+        sprintf(buffer, "%d", (int)score);
+        texture_score = renderText(buffer, renderer);
+
+        if (score > 9600 && stop_score == 0) {
+            score = 10000;
+            sprintf(buffer, "%d", (int)score);
+            texture_score = renderText(buffer, renderer);
+            stop_score = 1;
+        }
+        
+    }
+    
     if (panel.x < -46)
         panel.x += 180 * delta_time;
 
@@ -110,24 +144,29 @@ void render_1() {
     SDL_RenderCopy(renderer, texture_person_1, NULL, &person_rect);
 
     SDL_Rect token0_rect = {(int)token0.x, (int)token0.y, (int)token0.width, (int)token0.height};
-    if (box.x < 770)
+    if (box.x < 700)
         SDL_RenderCopy(renderer, texture_token00, NULL, &token0_rect);
 
-    SDL_Rect token_rect = {(int)token.x, (int)token.y, (int)token.width, (int)token.height};
-    if (box.x > 770)
-        SDL_RenderCopy(renderer, texture_token01, NULL, &token_rect);
 
     SDL_Rect worker_rect = {(int)worker.x, (int)worker.y, (int)worker.width, (int)worker.height};
     SDL_RenderCopy(renderer, texture_worker_1, NULL, &worker_rect);
 
     SDL_Rect box_rect = {(int)box.x, (int)box.y, (int)box.width, (int)box.height};
-    SDL_RenderCopy(renderer, texture_box, NULL, &box_rect);
+    if (box.x < 600)
+        SDL_RenderCopy(renderer, texture_box, NULL, &box_rect);
+    if (box.x > 600)
+        SDL_RenderCopy(renderer, texture_product, NULL, &box_rect);
 
     SDL_Rect machine_rect = {520, 200, 190, 212};
     SDL_RenderCopy(renderer, texture_machine_ready_1, NULL, &machine_rect);
 
     SDL_Rect icons[1] = {{182, 14, 42, 42}};
     render_copy_icons(1, icons);
+
+    SDL_Rect score_rect = {1050, 35, 120, 50};
+
+    if(score > 1000)
+        SDL_RenderCopy(renderer, texture_score, NULL, &score_rect);
 
     SDL_RenderPresent(renderer);
 }
@@ -138,8 +177,10 @@ void cleanup_1() {
     SDL_DestroyTexture(texture_next01);
     SDL_DestroyTexture(texture_person_1);
     SDL_DestroyTexture(texture_token00);
-    SDL_DestroyTexture(texture_token01);
+    //SDL_DestroyTexture(texture_token01);
     SDL_DestroyTexture(texture_worker_1);
     SDL_DestroyTexture(texture_box);
     SDL_DestroyTexture(texture_machine_ready_1);
+    SDL_DestroyTexture(texture_score);
+    SDL_DestroyTexture(texture_product);
 }

@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
+#include <SDL2_ttf/SDL_ttf.h>
 
 #include <stdio.h>
 #include <unistd.h>
@@ -34,6 +35,9 @@ SDL_Texture* texture;
 SDL_Surface* icon_up, *icon_down, *icon_right, *icon_left;
 SDL_Texture* texture_up, *texture_down, *texture_right, *texture_left;
 
+SDL_Texture* renderText(const char *buffer, SDL_Renderer *renderer);
+SDL_Texture* texture_score;
+
 int game_is_running;
 int last_frame_time;
 int real[100];
@@ -41,6 +45,11 @@ int count;
 int start;
 int restart;
 int finish;
+
+int stop_score;
+float score;
+char buffer[50];
+
 
 void render_copy_icons(int n, const SDL_Rect *icons);
 void run_level(int level);
