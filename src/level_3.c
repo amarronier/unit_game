@@ -1,6 +1,6 @@
 #include "header.h"
 
-int correct_2[7] = {SDLK_DOWN, SDLK_UP, SDLK_RIGHT, SDLK_UP, SDLK_RIGHT, SDLK_UP, SDLK_RETURN};
+int correct_3[7] = {SDLK_DOWN, SDLK_UP, SDLK_RIGHT, SDLK_UP, SDLK_RIGHT, SDLK_UP, SDLK_RETURN};
 
 SDL_Texture* texture_worker_1;
 SDL_Texture* texture_box;
@@ -9,7 +9,7 @@ SDL_Texture* texture_success02;
 SDL_Texture* texture_text02;
 SDL_Texture* texture_person_1;
 
-void setup_2() {
+void setup_3() {
     SDL_Surface* worker_1 = IMG_Load("resource/img/worker.png");
     texture_worker_1 = SDL_CreateTextureFromSurface(renderer, worker_1);
     SDL_FreeSurface(worker_1);
@@ -18,24 +18,24 @@ void setup_2() {
     texture_box = SDL_CreateTextureFromSurface(renderer, surface_box);
     SDL_FreeSurface(surface_box);
 
-    SDL_Surface* machine_ready = IMG_Load("resource/img/machine_ready.png");
+    SDL_Surface* machine_ready = IMG_Load("resource/img/machine.png");
     texture_machine_ready_1 = SDL_CreateTextureFromSurface(renderer, machine_ready);
     SDL_FreeSurface(machine_ready);
 
-    SDL_Surface* success02 = IMG_Load("resource/img/nextlevel.png");
+    SDL_Surface* success02 = IMG_Load("resource/img/next_3.png");
     texture_success02 = SDL_CreateTextureFromSurface(renderer, success02);
     SDL_FreeSurface(success02);
-    //
-    SDL_Surface* person01 = IMG_Load("resource/img/person2.png");
+
+    SDL_Surface* person01 = IMG_Load("resource/img/person_3.png");
     texture_person_1 = SDL_CreateTextureFromSurface(renderer, person01);
     SDL_FreeSurface(person01);
-    //
-    SDL_Surface* text02 = IMG_Load("resource/img/text02.png");
+
+    SDL_Surface* text02 = IMG_Load("resource/img/text_3.png");
     texture_text02 = SDL_CreateTextureFromSurface(renderer, text02);
     SDL_FreeSurface(text02);
 }
 
-void update_2() {
+void update_3() {
     int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
     static int step = 0;
 
@@ -48,12 +48,17 @@ void update_2() {
     if (person.x > 980)
         person.x -= 180 * delta_time;
 
-
+    if (restart == 1 && start == 0) {
+        count = 0, start = 0, step = 0;
+        for (int j = 0; j < 100; ++j) real[j] = 0;
+        box.x = 470, box.y = 510, box.width = 50, box.height = 50;
+        restart = 0;
+    }
 
     if (start) {
         if (step == 0) {
             if (box.y < 571) {
-                if (correct_2[0] == real[0]) {
+                if (correct_3[0] == real[0]) {
                     box.x += 0 * delta_time;
                     box.y += 90 * delta_time;
                 }
@@ -63,7 +68,7 @@ void update_2() {
 
         if (step == 1) {
             if (box.y > 390 && box.x > 190) {
-                if (correct_2[1] == real[1]) {
+                if (correct_3[1] == real[1]) {
                     box.x -= 110 * delta_time;
                     box.y -= 64 * delta_time;
                 }
@@ -73,8 +78,8 @@ void update_2() {
 
         if (step == 2) {
             if (box.y > 120 && box.x < 720) {
-                if (correct_2[2] == real[2]) {
-                    if (correct_2[3] == real[3]) {
+                if (correct_3[2] == real[2]) {
+                    if (correct_3[3] == real[3]) {
                         box.x += 110 * delta_time;
                         box.y -= 64 * delta_time;
                     }
@@ -85,8 +90,8 @@ void update_2() {
 
         if (step == 3) {
             if (box.y < 180 && box.x < 900) {
-                if (correct_2[4] == real[4]) {
-                    if (correct_2[5] == real[5]) {
+                if (correct_3[4] == real[4]) {
+                    if (correct_3[5] == real[5]) {
                         box.x += 110 * delta_time;
                         box.y += 64 * delta_time;
                     }
@@ -96,7 +101,7 @@ void update_2() {
         }
 
         for (int i = 0; i < 6; ++i) {
-            if (correct_2[i] != real[i]) {
+            if (correct_3[i] != real[i]) {
                 if (restart == 1) {
                     count = 0, start = 0, step = 0;
                     for (int j = 0; j < 100; ++j) real[j] = 0;
@@ -114,7 +119,7 @@ void update_2() {
     }
 }
 
-void render_2() {
+void render_3() {
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
 
@@ -155,7 +160,7 @@ void render_2() {
     SDL_RenderPresent(renderer);
 }
 
-void cleanup_2() {
+void cleanup_3() {
     SDL_DestroyTexture(texture_worker_1);
     SDL_DestroyTexture(texture_box);
     SDL_DestroyTexture(texture_person_1);

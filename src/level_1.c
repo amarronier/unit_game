@@ -13,19 +13,19 @@ SDL_Texture* texture_box;
 SDL_Texture* texture_machine_ready_1;
 
 void setup_1() {
-    SDL_Surface* panel01 = IMG_Load("resource/img/panel01.png");
+    SDL_Surface* panel01 = IMG_Load("resource/img/panel_1.png");
     texture_panel_1 = SDL_CreateTextureFromSurface(renderer, panel01);
     SDL_FreeSurface(panel01);
 
-    SDL_Surface* text01 = IMG_Load("resource/img/text01.png");
+    SDL_Surface* text01 = IMG_Load("resource/img/text_1.png");
     texture_text01 = SDL_CreateTextureFromSurface(renderer, text01);
     SDL_FreeSurface(text01);
 
-    SDL_Surface* next01 = IMG_Load("resource/img/nextlevel01.png");
+    SDL_Surface* next01 = IMG_Load("resource/img/next_1.png");
     texture_next01 = SDL_CreateTextureFromSurface(renderer, next01);
     SDL_FreeSurface(next01);
 
-    SDL_Surface* person01 = IMG_Load("resource/img/person1.png");
+    SDL_Surface* person01 = IMG_Load("resource/img/person_1.png");
     texture_person_1 = SDL_CreateTextureFromSurface(renderer, person01);
     SDL_FreeSurface(person01);
 
@@ -64,6 +64,12 @@ void update_1() {
 
     if (person.x > 1050)
         person.x -= 180 * delta_time;
+
+    if (restart == 1 && start == 0) {
+        count = 0, start = 0;
+        for (int i = 0; i < 100; ++i) real[i] = 0;
+        restart = 0;
+    }
 
     if (start) {
         if (box.x < 770) {

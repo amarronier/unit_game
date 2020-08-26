@@ -52,8 +52,6 @@ void setup(t_rectangle box_init, t_rectangle worker_init, t_rectangle panel_init
     coin = coin_init;
     kran = kran_init;
 
-   // success = (t_rectangle){600, 335, 684, 405};
-
     image = IMG_Load(background_filename);
     texture = SDL_CreateTextureFromSurface(renderer, image);
 
@@ -84,6 +82,9 @@ void process_input() {
             if (event.button.button == SDL_BUTTON_LEFT)
                 if (event.button.x > 805 && event.button.x < 940
                     && event.button.y > 590 && event.button.y < 640 && box.x > 750)
+                    game_is_running = FALSE;
+                if(event.button.x > 250 && event.button.x < 400
+                    && event.button.y > 590 && event.button.y < 700)
                     game_is_running = FALSE;
             break;
 
@@ -144,11 +145,14 @@ void cleanup_between_levels(int level) {
     else if (level == 3) {
         cleanup_3();
     }
+    else if (level == 4) {
+        cleanup_4();
+    }
 }
 
 void run_level(int level) {
     if (level == 1) {
-        const char *background = "resource/img/level01_3.jpg";
+        const char *background = "resource/img/level_1.jpg";
         t_rectangle box_init = {210, 500, 50, 50};
         t_rectangle worker_init = {980, 310, 120, 110};
         t_rectangle panel_init = {-342, -68, 292, 376};
@@ -163,8 +167,24 @@ void run_level(int level) {
               token0_init, token_init, coin_init, kran_init, background);
         setup_1();
     }
-    else if (level == 2) {
-        const char *background = "resource/img/level_2.jpg";
+      else if (level == 2) {
+        const char *background = "resource/img/level_2.png";
+        t_rectangle box_init = {650, 595, 50, 50};
+        t_rectangle worker_init = {420, 140, 150, 150};
+        t_rectangle panel_init = {20, 20, 292, 376};
+        t_rectangle person_init = {1300, 300, 249, 423};
+        t_rectangle text_init = {-300, 330, 500, 400};
+        t_rectangle next_init = {10, 330, 500, 400};
+        t_rectangle token0_init = {1085, 43, 680, 35};
+        t_rectangle token_init = {1085, 43, 89, 35};
+        t_rectangle coin_init = {1170, 20, 70, 70};
+        t_rectangle kran_init = {640, 300, 100, 100};
+        setup(box_init, worker_init, panel_init, person_init, text_init, next_init,
+              token0_init, token_init, coin_init, kran_init, background);
+        setup_2();
+    }
+    else if (level == 3) {
+        const char *background = "resource/img/level_3.jpg";
         t_rectangle box_init = {470, 510, 50, 50};
         t_rectangle worker_init = {610, 310, 120, 110};
         t_rectangle panel_init = {20, 20, 292, 376};
@@ -177,10 +197,10 @@ void run_level(int level) {
         t_rectangle kran_init = {0, 0, 0, 0};
         setup(box_init, worker_init, panel_init, person_init, text_init, next_init,
               token0_init, token_init, coin_init, kran_init, background);
-        setup_2();
+        setup_3();
     }
-    else if (level == 3) {
-        const char *background = "resource/img/level_3.png";
+    else if (level == 4) {
+        const char *background = "resource/img/level_4.png";
         t_rectangle box_init = {287, 595, 50, 50};
         t_rectangle worker_init = {80, 585, 120, 110};
         t_rectangle panel_init = {20, 20, 292, 376};
@@ -193,8 +213,9 @@ void run_level(int level) {
         t_rectangle kran_init = {640, 300, 100, 100};
         setup(box_init, worker_init, panel_init, person_init, text_init, next_init,
               token0_init, token_init, coin_init, kran_init, background);
-        setup_3();
+        setup_4();
     }
+
 
     while (game_is_running) {
         process_input();
@@ -210,13 +231,17 @@ void run_level(int level) {
             update_3();
             render_3();
         }
+        else if (level == 4) {
+            update_4();
+            render_4();
+        }
     }
 }
 
 int main() {
     game_is_running = initialize_window();
 
-    for (int level = 1; level <= 3; ++level) {
+    for (int level = 1; level <= 4; ++level) {
         run_level(level);
         cleanup_between_levels(level);
     }
