@@ -9,6 +9,8 @@ SDL_Texture* texture_machine_ready_1;
 SDL_Texture* texture_success04;
 SDL_Texture* texture_text04;
 SDL_Texture* texture_product;
+Mix_Chunk* coinDrop;
+Mix_Chunk* conveyorBelt;
 
 void setup_2() {
     SDL_Surface* worker_1 = IMG_Load("resource/img/worker.png");
@@ -38,11 +40,19 @@ void setup_2() {
     sprintf(buffer, "%d", (int)score);
     texture_score = renderText(buffer, renderer);
     stop_score = 0;
+
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    coinDrop = Mix_LoadWAV("resource/audio/coins-drop-pirate-gold-doubloon-ring_G16XQD4d.mp3");
+    conveyorBelt = Mix_LoadWAV("resource/audio/conveyor-belt-starting_MktIka4u.mp3");
+    coinDrop -> volume = 50;
+    conveyorBelt -> volume = 15;
 }
 
 void update_2() {
     int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - last_frame_time);
     static int step = 0;
+
+   
 
     if (time_to_wait > 0 && time_to_wait <= FRAME_TARGET_TIME)
         SDL_Delay(time_to_wait);
@@ -77,6 +87,7 @@ void update_2() {
 
     if (start) {
         if (step == 0) {
+            Mix_PlayChannel( -1, conveyorBelt, 0);
             if (box.x < 1120) {
                 if (correct_2[0] == real[0]) {
                     box.x += 100 * delta_time;
@@ -110,6 +121,7 @@ void update_2() {
         }
 
         if (worker.x < 610 && step == 2) {
+            Mix_PlayChannel( -1, coinDrop, 0);
             worker.x += 110 * delta_time;
             worker.y -= 50 * delta_time;
             finish_2 = 1;
@@ -149,7 +161,6 @@ void render_2() {
     render_copy_icons(3, icons);
 
     SDL_Rect score_rect = {1050, 35, 120, 50};
-    
     SDL_RenderCopy(renderer, texture_score, NULL, &score_rect);
 
     SDL_RenderPresent(renderer);
@@ -163,4 +174,8 @@ void cleanup_2() {
     SDL_DestroyTexture(texture_text04);
     SDL_DestroyTexture(texture_score);
     SDL_DestroyTexture(texture_product);
+    Mix_FreeChunk(conveyorBelt);
+    Mix_FreeChunk(coinDrop);
+    coinDrop = NULL;
+    conveyorBelt = NULL;
 }
