@@ -27,7 +27,6 @@ all: ENDGAME
 
 ENDGAME: $(OBJ_FILES)
 	@$(CC) $(CFLAGS) $^ -o $@ -I $(INC_DIR) $(SDL_FLAGS) $(SDL) -o $(NAME)
-	@printf "\r\33[2K$@\t \033[32;1mcreated\033[0m\n"
 
 $(OBJ_FILES): | $(OBJ_DIR)
 
@@ -45,10 +44,4 @@ uninstall:
 	@$(RM) $(OBJ_DIR)
 	@$(RM) $(NAME)
 
-# удаляем и заново собираем библиотеку
 reinstall: uninstall all
-
-# .PHONY - это явное указание имен целей мейкфайла, например, если
-# в папке будет файл clean и попытаться выполнить команду make clean,
-# то make попытается выполнить файл clean, а не цель clean
-.PHONY: all uninstall clean reinstall

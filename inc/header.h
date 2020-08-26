@@ -58,3 +58,8 @@ void setup_3();
 void update_3();
 void render_3();
 void cleanup_3();
+
+void setup_4();
+void update_4();
+void render_4();
+void cleanup_4();
