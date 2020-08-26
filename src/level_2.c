@@ -88,14 +88,12 @@ void update_2() {
             }
         }
 
-        if (step == 2) {
-            if (worker.x < 610) {
-                worker.x += 110 * delta_time;
-                worker.y -= 50 * delta_time;
-                finish_2 = 1;
-            }
-            if (worker.x > 600) step = 3;
+        if (worker.x < 610 && step == 2) {
+            worker.x += 110 * delta_time;
+            worker.y -= 50 * delta_time;
+            finish_2 = 1;
         }
+        if (worker.x > 600) step = 3;
     }
 }
 
