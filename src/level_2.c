@@ -1,6 +1,6 @@
 #include "header.h"
 
-int correct_2[3] = {SDLK_UP, SDLK_LEFT, SDLK_UP};
+int correct_2[4] = {SDLK_UP, SDLK_LEFT, SDLK_UP, SDLK_RETURN};
 int finish_2 = 0;
 
 SDL_Texture* texture_worker_1;
@@ -55,8 +55,7 @@ void update_2() {
     if (restart == 1 && start == 0) {
         count = 0, start = 0, step = 0;
         for (int j = 0; j < 100; ++j) real[j] = 0;
-        box.x = 287, box.y = 595, box.width = 50, box.height = 50;
-        kran.x = 640, kran.y = 300, kran.width = 100, kran.height = 100;
+        box.x = 650, box.y = 595, box.width = 50, box.height = 50;
         restart = 0;
     }
 
@@ -75,13 +74,25 @@ void update_2() {
             if (box.x > 750) {
                 if (correct_2[1] == real[1]) {
                     if (correct_2[2] == real[2]) {
-                    box.x -= 110 * delta_time;
-                    box.y -= 64 * delta_time;
+                       box.x -= 110 * delta_time;
+                        box.y -= 64 * delta_time;
+                    }
                 }
-            }
             }
             if (box.x < 755) step = 2;
         }
+
+        for (int i = 0; i < 3; ++i) {
+            if (correct_2[i] != real[i]) {
+                if (restart == 1) {
+                    count = 0, start = 0, step = 0;
+                    for (int j = 0; j < 100; ++j) real[j] = 0;
+                    box.x = 650, box.y = 595, box.width = 50, box.height = 50;
+                    restart = 0;
+                }
+            }
+        }
+
         if (step == 2) {
             if (worker.x < 610) {
                 worker.x += 110 * delta_time;
