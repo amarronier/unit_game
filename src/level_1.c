@@ -12,6 +12,8 @@ SDL_Texture* texture_worker_1;
 SDL_Texture* texture_box;
 SDL_Texture* texture_machine_ready_1;
 SDL_Texture* texture_product;
+Mix_Chunk* coinDrop;
+Mix_Chunk* conveyorBelt;
 
 void setup_1() {
     SDL_Surface* panel01 = IMG_Load("resource/img/panel_1.png");
@@ -53,6 +55,12 @@ void setup_1() {
     SDL_Surface* machine_ready = IMG_Load("resource/img/machine_my.png");
     texture_machine_ready_1 = SDL_CreateTextureFromSurface(renderer, machine_ready);
     SDL_FreeSurface(machine_ready);
+
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    coinDrop = Mix_LoadWAV("resource/audio/coins-drop-pirate-gold-doubloon-ring_G16XQD4d.mp3");
+    conveyorBelt = Mix_LoadWAV("resource/audio/conveyor-belt-starting_MktIka4u.mp3");
+    coinDrop -> volume = 50;
+    conveyorBelt -> volume = 15;
 }
 
 void update_1() {
@@ -79,10 +87,11 @@ void update_1() {
         
     }
     
-    if (box.x > 700 && score <= 10000 && stop_score == 0) {
+    if (box.x > 800 && score <= 10000 && stop_score == 0) {
         score += 4000 * delta_time;
         sprintf(buffer, "%d", (int)score);
         texture_score = renderText(buffer, renderer);
+        
 
         if (score > 9600 && stop_score == 0) {
             score = 10000;
@@ -110,6 +119,7 @@ void update_1() {
             if (correct_1[0] == real[0]) {
                 box.x += 90 * delta_time;
                 box.y -= 52 * delta_time;
+                Mix_PlayChannel( -1, conveyorBelt, 0);
             } else if (restart == 1) {
                 count = 0, start = 0;
                 for (int i = 0; i < 100; ++i) real[i] = 0;
@@ -120,6 +130,7 @@ void update_1() {
 
 
     if (box.x > 760 && worker.y > 210 && restart == 0) {
+        Mix_PlayChannel( -1, coinDrop, 0);
         worker.x -= 60 * delta_time;
         worker.y -= 35 * delta_time;
     }
@@ -183,4 +194,8 @@ void cleanup_1() {
     SDL_DestroyTexture(texture_machine_ready_1);
     SDL_DestroyTexture(texture_score);
     SDL_DestroyTexture(texture_product);
+    Mix_FreeChunk(conveyorBelt);
+    Mix_FreeChunk(coinDrop);
+    coinDrop = NULL;
+    conveyorBelt = NULL;
 }

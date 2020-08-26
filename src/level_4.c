@@ -11,6 +11,8 @@ SDL_Texture* texture_machine_ready_1;
 SDL_Texture* texture_success03;
 SDL_Texture* texture_text03;
 SDL_Texture* texture_product;
+Mix_Chunk* coinDrop;
+Mix_Chunk* conveyorBelt;
 
 void setup_4() {
     SDL_Surface* worker_3 = IMG_Load("resource/img/worker.png");
@@ -48,6 +50,12 @@ void setup_4() {
     sprintf(buffer, "%d", (int)score);
     texture_score = renderText(buffer, renderer);
     stop_score = 0;
+
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    coinDrop = Mix_LoadWAV("resource/audio/coins-drop-pirate-gold-doubloon-ring_G16XQD4d.mp3");
+    conveyorBelt = Mix_LoadWAV("resource/audio/conveyor-belt-starting_MktIka4u.mp3");
+    coinDrop -> volume = 50;
+    conveyorBelt -> volume = 15;
 }
 
 void update_4() {
@@ -90,6 +98,7 @@ void update_4() {
     if (start) {
         if (step == 0) {
             if (worker.x < 220) {
+                Mix_PlayChannel( -1, conveyorBelt, 0);
                 worker.x += 110 * delta_time;
                 worker.y -= 50 * delta_time;
             }
@@ -98,6 +107,7 @@ void update_4() {
         if (step == 1) {
             if (box.x < 525) {
                 if (correct_4[0] == real[0]) {
+                    Mix_PlayChannel( -1, conveyorBelt, 0);
                     box.x += 110 * delta_time;
                     box.y -= 65 * delta_time;
                 }
@@ -108,6 +118,7 @@ void update_4() {
             if (box.x > 210) {
                 if (correct_4[1] == real[1]) {
                     if (correct_4[2] == real[2]) {
+                        Mix_PlayChannel( -1, conveyorBelt, 0);
                         box.x -= 110 * delta_time;
                         box.y -= 65 * delta_time;
                     }
@@ -119,6 +130,7 @@ void update_4() {
             if (box.x < 370) {
                 if (correct_4[3] == real[3]) {
                     if (correct_4[4] == real[4]) {
+                        Mix_PlayChannel( -1, conveyorBelt, 0);
                         box.x += 110 * delta_time;
                         box.y -= 60 * delta_time;
                     }
@@ -130,6 +142,7 @@ void update_4() {
             if (box.x < 675) {
                 if (correct_4[5] == real[5]) {
                     if (correct_4[6] == real[6]) {
+                        Mix_PlayChannel( -1, conveyorBelt, 0);
                         box.x += 110 * delta_time;
                         box.y += 62 * delta_time;
                     }
@@ -141,6 +154,7 @@ void update_4() {
             if (box.x < 890) {
                 if (correct_4[7] == real[7]) {
                     if (correct_4[8] == real[8]) {
+                        Mix_PlayChannel( -1, conveyorBelt, 0);
                         box.x += 55 * delta_time;
                         box.y -= 33 * delta_time;
                         kran.x += 55 * delta_time;
@@ -167,6 +181,7 @@ void update_4() {
             if (box.x < 965) {
                 if (correct_4[9] == real[9]) {
                     if (correct_4[10] == real[10]) {
+                        Mix_PlayChannel( -1, coinDrop, 0);
                         box.x += 110 * delta_time;
                         box.y += 62 * delta_time;
                         finish_4 = 1;
@@ -230,4 +245,8 @@ void cleanup_4() {
     SDL_DestroyTexture(texture_text03);
     SDL_DestroyTexture(texture_score);
     SDL_DestroyTexture(texture_product);
+    Mix_FreeChunk(conveyorBelt);
+    Mix_FreeChunk(coinDrop);
+    coinDrop = NULL;
+    conveyorBelt = NULL;
 }
