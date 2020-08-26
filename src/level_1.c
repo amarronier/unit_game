@@ -36,10 +36,6 @@ void setup_1() {
     texture_token00 = SDL_CreateTextureFromSurface(renderer, token00);
     SDL_FreeSurface(token00);
 
-    // SDL_Surface* token01 = IMG_Load("resource/img/1000.png");
-    // texture_token01 = SDL_CreateTextureFromSurface(renderer, token01);
-    // SDL_FreeSurface(token01);
-
     SDL_Surface* worker_1 = IMG_Load("resource/img/worker.jpeg");
     texture_worker_1 = SDL_CreateTextureFromSurface(renderer, worker_1);
     SDL_FreeSurface(worker_1);
@@ -171,7 +167,7 @@ void render_1() {
     SDL_Rect machine_rect = {520, 200, 190, 212};
     SDL_RenderCopy(renderer, texture_machine_ready_1, NULL, &machine_rect);
 
-    SDL_Rect icons[1] = {{182, 14, 42, 42}};
+    SDL_Rect icons[1] = {{180, 13, 42, 42}};
     render_copy_icons(1, icons);
 
     SDL_Rect score_rect = {1050, 35, 120, 50};

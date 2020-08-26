@@ -59,6 +59,7 @@ void setup_intro();
 void render_intro();
 void render_speech_1();
 void render_speech_2();
+void render_map();
 void process_intro();
 void cleanup_intro();
 

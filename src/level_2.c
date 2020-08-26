@@ -157,7 +157,7 @@ void render_2() {
         SDL_RenderCopy(renderer, texture_success04, NULL, &next_rect);
 
 
-    SDL_Rect icons[3] = {{182, 14, 42, 42}, {230, 14, 42, 42}, {278, 14, 42, 42}};
+    SDL_Rect icons[3] = {{183, 13, 42, 42}, {231, 13, 42, 42}, {280, 13, 42, 42}};
     render_copy_icons(3, icons);
 
     SDL_Rect score_rect = {1050, 35, 120, 50};

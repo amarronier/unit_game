@@ -12,6 +12,7 @@ int count = 0;
 int start = 0;
 int restart = 0;
 int stop_score = 0;
+int destroy = 0;
 
 int initialize_window(void) {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -106,8 +107,11 @@ void process_input() {
                 case SDLK_r:
                     restart = 1;
                     break;
-                case SDLK_ESCAPE:
+                case SDLK_q:
                     game_is_running = FALSE;
+                    break;
+                case SDLK_ESCAPE:
+                    destroy = 1;
                     break;
             }
             break;
@@ -177,6 +181,7 @@ void run_intro() {
         process_intro();
         render_speech_1();
         render_speech_2();
+        render_map();
     }
     cleanup_intro();
 }
@@ -250,6 +255,7 @@ void run_level(int level) {
 
     while (game_is_running) {
         process_input();
+        if (destroy) destroy_window();
         if (level == 1) {
             update_1();
             render_1();
