@@ -4,12 +4,14 @@ SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Surface* image = NULL;
 SDL_Texture* texture = NULL;
+SDL_Texture* texture_score = NULL; 
 
 int game_is_running = FALSE;
 int last_frame_time = 0;
 int count = 0;
 int start = 0;
 int restart = 0;
+int stop_score = 0;
 
 int initialize_window(void) {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -34,6 +36,8 @@ int initialize_window(void) {
         fprintf(stderr, "Error creating SDL Renderer.\n");
         exit(1);
     }
+    TTF_Init();
+
     return TRUE;
 }
 
@@ -123,11 +127,27 @@ void render_copy_icons(int n, const SDL_Rect *icons) {
     }
 }
 
+SDL_Texture* renderText(const char *buffer, SDL_Renderer *renderer) {
+        
+        SDL_Color color = {255, 210, 0, 255};
+        int fontSize = 60;
+        char fontFile[] = "resource/img/arial.ttf";
+        TTF_Font *font = TTF_OpenFont(fontFile, fontSize);
+    
+        SDL_Surface *surf = TTF_RenderText_Blended(font, buffer, color);
+        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
+
+        SDL_FreeSurface(surf);
+        TTF_CloseFont(font);
+        return texture;
+}
+
 void destroy_window() {
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(image);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_Quit();
     SDL_Quit();
 }
 
@@ -184,7 +204,7 @@ void run_level(int level) {
         setup_2();
     }
     else if (level == 3) {
-        const char *background = "resource/img/level_3.jpg";
+        const char *background = "resource/img/level_3_final.jpg";
         t_rectangle box_init = {470, 510, 50, 50};
         t_rectangle worker_init = {610, 310, 120, 110};
         t_rectangle panel_init = {20, 20, 292, 376};
@@ -200,7 +220,7 @@ void run_level(int level) {
         setup_3();
     }
     else if (level == 4) {
-        const char *background = "resource/img/level_4.png";
+        const char *background = "resource/img/level_4_final.jpg";
         t_rectangle box_init = {287, 595, 50, 50};
         t_rectangle worker_init = {80, 585, 120, 110};
         t_rectangle panel_init = {20, 20, 292, 376};

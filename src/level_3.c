@@ -8,6 +8,7 @@ SDL_Texture* texture_machine_ready_1;
 SDL_Texture* texture_success02;
 SDL_Texture* texture_text02;
 SDL_Texture* texture_person_1;
+SDL_Texture* texture_product;
 
 void setup_3() {
     SDL_Surface* worker_1 = IMG_Load("resource/img/worker.png");
@@ -33,6 +34,14 @@ void setup_3() {
     SDL_Surface* text02 = IMG_Load("resource/img/text_3.png");
     texture_text02 = SDL_CreateTextureFromSurface(renderer, text02);
     SDL_FreeSurface(text02);
+
+    SDL_Surface* surface_product = IMG_Load("resource/img/acum.png");
+    texture_product = SDL_CreateTextureFromSurface(renderer, surface_product);
+    SDL_FreeSurface(surface_product);
+
+    sprintf(buffer, "%d", (int)score);
+    texture_score = renderText(buffer, renderer);
+    stop_score = 0;
 }
 
 void update_3() {
@@ -44,6 +53,19 @@ void update_3() {
 
     float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
     last_frame_time = SDL_GetTicks();
+
+    if (finish && score <= 85000 && stop_score == 0) {
+        score += 12000 * delta_time;
+        sprintf(buffer, "%d", (int)score);
+        texture_score = renderText(buffer, renderer);
+
+        if (score > 84200 && stop_score == 0) {
+            score = 85000;
+            sprintf(buffer, "%d", (int)score);
+            texture_score = renderText(buffer, renderer);
+            stop_score = 1;
+        }
+    }
 
     if (person.x > 980)
         person.x -= 180 * delta_time;
@@ -125,10 +147,7 @@ void render_3() {
 
     SDL_Rect worker_rect = {(int)worker.x, (int)worker.y, (int)worker.width, (int)worker.height};
     SDL_RenderCopy(renderer, texture_worker_1, NULL, &worker_rect);
-    //
-    SDL_Surface* surface_product = IMG_Load("resource/img/acum.png");
-    SDL_Texture* texture_product = SDL_CreateTextureFromSurface(renderer, surface_product);
-    //
+    
     SDL_Rect box_rect = {(int)box.x, (int)box.y, (int)box.width, (int)box.height};
 
     if (box.x < 530)
@@ -157,6 +176,9 @@ void render_3() {
                          {326, 14, 42, 42}, {374, 14, 42, 42}, {422, 14, 42, 42}};
     render_copy_icons(6, icons);
 
+    SDL_Rect score_rect = {1050, 35, 120, 50};
+    SDL_RenderCopy(renderer, texture_score, NULL, &score_rect);
+
     SDL_RenderPresent(renderer);
 }
 
@@ -167,4 +189,6 @@ void cleanup_3() {
     SDL_DestroyTexture(texture_machine_ready_1);
     SDL_DestroyTexture(texture_success02);
     SDL_DestroyTexture(texture_text02);
+    SDL_DestroyTexture(texture_score);
+    SDL_DestroyTexture(texture_product);
 }
