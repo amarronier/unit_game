@@ -8,7 +8,6 @@ SDL_Texture* texture_box;
 SDL_Texture* texture_machine_ready_1;
 SDL_Texture* texture_success04;
 SDL_Texture* texture_text04;
-SDL_Texture* texture_person_1;
 
 void setup_2() {
     SDL_Surface* worker_1 = IMG_Load("resource/img/worker.png");
@@ -26,10 +25,6 @@ void setup_2() {
     SDL_Surface* success02 = IMG_Load("resource/img/next_2.png");
     texture_success04 = SDL_CreateTextureFromSurface(renderer, success02);
     SDL_FreeSurface(success02);
-
-    SDL_Surface* person01 = IMG_Load("resource/img/person_3.png");
-    texture_person_1 = SDL_CreateTextureFromSurface(renderer, person01);
-    SDL_FreeSurface(person01);
 
     SDL_Surface* text02 = IMG_Load("resource/img/text_2.png");
     texture_text04 = SDL_CreateTextureFromSurface(renderer, text02);
@@ -134,9 +129,6 @@ void render_2() {
         SDL_RenderCopy(renderer, texture_success04, NULL, &next_rect);
 
 
-    SDL_Rect person_rect = {(int)person.x, (int)person.y, (int)person.width, (int)person.height};
-    SDL_RenderCopy(renderer, texture_person_1, NULL, &person_rect);
-
     SDL_Rect icons[3] = {{182, 14, 42, 42}, {230, 14, 42, 42}, {278, 14, 42, 42}};
     render_copy_icons(3, icons);
 
@@ -146,7 +138,6 @@ void render_2() {
 void cleanup_2() {
     SDL_DestroyTexture(texture_worker_1);
     SDL_DestroyTexture(texture_box);
-    SDL_DestroyTexture(texture_person_1);
     SDL_DestroyTexture(texture_machine_ready_1);
     SDL_DestroyTexture(texture_success04);
     SDL_DestroyTexture(texture_text04);
